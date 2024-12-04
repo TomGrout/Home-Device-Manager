@@ -6,7 +6,7 @@ void Sensor::quickView(){
 }
 
 void Sensor::displayInfo(){
-    cout << "\nDevice Name: " << getName() << endl;
+    cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
     cout << "Temperature: " << getTemp() << endl;
     cout << "Humidity: " << getHumd() << endl;
 }

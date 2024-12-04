@@ -5,7 +5,7 @@ void Speaker::quickView(){
 }
 
 void Speaker::displayInfo(){
-	cout << "\nDevice name: " << getName() << endl;
+	cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
 	cout << "Playing: " << (IsOn() ? "Yes " : "No ") << endl;
 	cout << "Volume: ";
 	for (int i = 0; i < volume; i++) cout << "\376";
@@ -24,7 +24,7 @@ void Speaker::editProperty(){
 		break;
 
 	case 2:
-		if (playing = true) this->stop();
+		if (playing == true) this->stop();
 		else this->play();
 		break;
 

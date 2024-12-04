@@ -6,7 +6,7 @@ void Lights::quickView() {
 
 
 void Lights::displayInfo() {
-	cout << "\nDevice Name: " << getName() << endl;        
+	cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
 	cout << "Power: " << (IsOn() ? "On " : "Off ") << endl;
 	cout << "Brightness: " << brightness << "%" << endl;
 }

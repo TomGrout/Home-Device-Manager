@@ -23,7 +23,7 @@ string Device::getName() const {
 }
 
 string Device::getType() const {
-    return ((typeid(*this).name()));
+    return (typeid(*this).name());
 }
 
 void Device::displayInfo() {

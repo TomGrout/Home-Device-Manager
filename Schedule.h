@@ -55,14 +55,9 @@ class Schedule{
      vector<ScheduleEntry> entries;
 
     public:
-        void addSchedule(const MyTime& on, const MyTime& off) {
-            entries.emplace_back(on, off);
-        }
+        void addSchedule(const MyTime& on, const MyTime& off);
+        void displaySchedule() const;
 
-        void displaySchedule() const {
-            for (const auto& entry : entries) {
-                std::cout << entry << "\n";
-            }
-        }
+
 };
 

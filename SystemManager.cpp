@@ -51,7 +51,7 @@ void SystemManager::loadDevicesFromFile(const string& filename) {
         }
         else if (type == "Radiator"){
             infile >> flt;
-            devices.push_back(new Radiator(name, state, value));
+            devices.push_back(new Radiator(name, state, flt));
         }
         else {
             infile >> value;

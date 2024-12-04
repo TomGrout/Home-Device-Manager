@@ -5,7 +5,7 @@ void Thermostat::quickView(){
 }
 
 void Thermostat::displayInfo(){
-	cout << "\nDevice Name: " << getName() << endl;
+	cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
 	cout << "Power: " << (IsOn() ? "On " : "Off ") << endl;
 	cout << "Heating: " << "whatever" << "%" << endl;
 	cout << "Schedule: " << "schedules" << endl;
