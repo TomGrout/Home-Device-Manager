@@ -1,0 +1,10 @@
+Lights l1 0 0
+Lights l2 1 25
+Sensor s1 1 45 22.900000
+Sensor s2 1 90 30.200001
+Sensor s3 1 0 0.000000
+Lights l3 0 0
+Socket sk1 1 2903
+Speaker sp1 0 4
+Speaker sp2 0 9
+Thermostat t1 0 0.000000
