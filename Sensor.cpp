@@ -46,7 +46,7 @@ string Sensor::getValue() const
 }
 
 float Sensor::getTemp() const {
-	float tempRounded = (int)(temperature * 100 + .5);
+	float tempRounded = (float)(temperature * 100 + .5);
 	return (float)tempRounded / 100;
 }
 

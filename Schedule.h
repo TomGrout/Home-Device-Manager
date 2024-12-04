@@ -52,7 +52,7 @@ class Schedule{
             }
         };
 
-     vector<ScheduleEntry> entries;
+    vector<ScheduleEntry> entries;
 
     public:
         void addSchedule(const MyTime& on, const MyTime& off);

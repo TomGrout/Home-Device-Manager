@@ -1,5 +1,6 @@
 #pragma once
 #include "Device.h"
+#include "SleepTimer.h"
 
 using namespace chrono;
 
@@ -9,6 +10,7 @@ class Socket :
 private:
     steady_clock::time_point start = high_resolution_clock::now();      // start usage timer
     int usage;
+    SleepTimer st;
 
 public:
     Socket(string name, bool on, int usage = 0) : Device(name, on), usage(usage) {}
@@ -19,7 +21,6 @@ public:
     string getValue() const override;
 
     void displayUsage();
-    int Usage() const;
 
 };
 

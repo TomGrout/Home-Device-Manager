@@ -7,7 +7,7 @@ void Radiator::quickView(){
 void Radiator::displayInfo(){
 	cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
 	cout << "Power: " << (IsOn() ? "On " : "Off ") << endl;
-	cout << "Heating: " << "whatever" << "%" << endl;
+	cout << "Heating: " << (IsOn() ? to_string(temperature) : "0") << "\370C" << endl;
 	cout << "Schedule: " << "schedules" << endl;
 }
 

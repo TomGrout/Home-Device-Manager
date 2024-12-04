@@ -10,9 +10,9 @@ using namespace std;
 
 int main() {
 
-#ifdef _DEBUG
-    onexit(_CrtDumpMemoryLeaks);
-#endif
+//#ifdef _DEBUG
+//    onexit(_CrtDumpMemoryLeaks);
+//#endif
     
     const static string& devices_file = "C:\\Users\\tomgr\\OneDrive - Sheffield Hallam University\\Documents\\modules\\C, C++\\year 2\\coursework\\coursework - y2s1\\DEVICES.txt";
     SystemManager::getSystemManager()->loadDevicesFromFile(devices_file);
