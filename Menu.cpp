@@ -70,19 +70,19 @@ int main() {
                     displayDevice->editProperty();
 
                 }
+                cin.clear(); cin.ignore();
                 break;
 
             case 5:
                 //take user input and pass to sys mgr function addDevice
                 cout << "Enter device type: ";
                 cin >> type;
-
                 cout << "Enter device name: ";
-                getline(cin, name);
+                //getline(cin, name, '\n');
                 cin >> name;
-                SystemManager::getSystemManager()->addDevice(type, name);
-                cin.clear();
 
+                SystemManager::getSystemManager()->addDevice(type, name);
+                cin.clear(); cin.ignore();
                 break;
 
             case 6:
@@ -105,7 +105,7 @@ int main() {
                 }
                 else if(settingChoice == 3){
                     //delete device
-
+                    SystemManager::getSystemManager()->deleteSpecificDevice();
                 }
                 cin.clear(); cin.ignore();
                 break;
@@ -131,7 +131,7 @@ int main() {
                 oneClickDevice->oneClick();
             }
             else {
-                cout << "Couldn't find that device.\a" << endl;
+                cout << "Couldn't find that device." << endl;
             }
         }
 

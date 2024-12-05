@@ -24,8 +24,7 @@ public:
     string getValue() const override;
 
     float getTemp() const;
-    int getHumd() const;
     void displayUsage();
-
+    
 };
 

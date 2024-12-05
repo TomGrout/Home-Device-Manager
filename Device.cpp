@@ -19,12 +19,21 @@ void Device::setName() {
     cout << getType().erase(0, 6) << " renamed to " << name << endl;
 }
 
+float Device::round(float value){
+    float rounded = (int)(value * 100 + .5);
+    return (float)rounded / 100;
+}
+
 string Device::getName() const {
     return name;
 }
 
 string Device::getType() const {
     return (typeid(*this).name());
+}
+
+void Device::quickView(){
+    cout << getName() << " " << (IsOn() ? "[ON}" : "[OFF] ") << endl;
 }
 
 void Device::displayInfo() {

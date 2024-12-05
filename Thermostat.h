@@ -7,7 +7,7 @@ private:
     float temperature;
 
 public:
-    Thermostat(string name, bool on, float temp = 0.0f) : Device(name, on), temperature(temp) {}
+    Thermostat(string name, bool on, float temp = 0.0f) : Device(name, on), temperature(temp) { temperature = round(temperature); }
 
     void quickView() override;
     void displayInfo() override;

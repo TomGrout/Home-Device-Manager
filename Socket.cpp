@@ -7,11 +7,11 @@ void Socket::displayInfo(){
 }
 
 void Socket::editProperty(){
-
+	startTimer(5);
 }
 
 void Socket::oneClick(){
-	this->turnOn();
+	turnOn();
 }
 
 string Socket::getValue() const {
@@ -24,4 +24,11 @@ void Socket::displayUsage() {
 	usage += duration_cast<seconds>(end - start).count();
 
 	cout << "Usage: " << usage << "kW" << endl;
+}
+
+void Socket::startTimer(int mins)
+{
+	turnOn();
+	st.start(mins);
+	turnOff();
 }

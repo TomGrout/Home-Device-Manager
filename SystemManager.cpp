@@ -3,19 +3,18 @@
 SystemManager::SystemManager() {}
 
 SystemManager* SystemManager::instantiation = NULL;
-SystemManager* SystemManager::getSystemManager()
-{
+SystemManager* SystemManager::getSystemManager(){
     if (!instantiation)
         instantiation = new SystemManager();
     return instantiation;
 }
 
-SystemManager::~SystemManager() {
+SystemManager::~SystemManager(){
     for (Device* device : devices) {
         try {
             delete device;
         }
-        catch (exception excptn) {
+        catch (exception e) {
             cout << "A device could not be deleted\a" << endl;
         }
     }
@@ -40,7 +39,7 @@ void SystemManager::loadDevicesFromFile(const string& filename) {
     int value;
     float flt;
 
-    while (infile >> type >> name >> state) {
+    while (infile >> type >> name >> state){
         if (type == "Sensor") {
             infile >> value >> flt;
             devices.push_back(new Sensor(name, state, value, flt));
@@ -58,6 +57,7 @@ void SystemManager::loadDevicesFromFile(const string& filename) {
             if (type == "Lights") devices.push_back(new Lights(name, state, value));
             else if (type == "Speaker") devices.push_back(new Speaker(name, state, value));
             else if (type == "Socket") devices.push_back(new Socket(name, state, value));
+
         }
     }
     infile.close();
@@ -77,7 +77,7 @@ void SystemManager::quickList() {
     for (Device* device : devices) device->quickView();
 }
 
-void SystemManager::addDevice(string& type, const string& name) {
+void SystemManager::addDevice(string& type, const string& name){
     bool canCreate = true;
     int invalidNameInt;
     vector<string> validTypes = { "light", "lights", "sensor", "temperaturehumiditysensor", "speaker", "radiator", "heater", "valve", "socket", "plug", "thermostat",  };
@@ -104,13 +104,12 @@ void SystemManager::addDevice(string& type, const string& name) {
     }
 
     if (canCreate) {
-        if (type == "lights" || type == "light") devices.push_back(new Lights(name, 0));
-        else if (type == "sensor" || type == "temperaturehumiditysensor") devices.push_back(new Sensor(name, 1));
-        else if (type == "speaker") devices.push_back(new Speaker(name, 0));
-        else if (type == "socket") devices.push_back(new Socket(name, 0));
-        else if (type == "thermostat") devices.push_back(new Thermostat(name, 0));
-        else if (type == "radiator") devices.push_back(new Radiator(name, 0));
-        cout << "New " << type << " '" << name << "' added." << endl;
+        //new devices start off
+        devices.push_back(DeviceFactory::instance().createDevice(type, name, 0));       
+
+        if (DeviceFactory::instance().createDevice(type, name, 0) != nullptr){
+            cout << "New " << type << " '" << name << "' added." << endl;
+        }
     }
 }
 
@@ -121,7 +120,7 @@ Device* SystemManager::findDeviceByName(string name) {
     return nullptr;
 }
 
-void SystemManager::sortDevicesByName() {
+void SystemManager::sortDevicesByName(){
     vector<Device*> sortedDevices = devices;
 
     sort(sortedDevices.begin(), sortedDevices.end(), [](Device* a, Device* b) {
@@ -135,7 +134,7 @@ void SystemManager::sortDevicesByName() {
     cout << '\n';
 }
 
-void SystemManager::sortDevicesByType() {
+void SystemManager::sortDevicesByType(){
     vector<Device*> sortedDevices = devices;
 
     sort(sortedDevices.begin(), sortedDevices.end(), [](Device* a, Device* b) {
@@ -148,6 +147,13 @@ void SystemManager::sortDevicesByType() {
         if (it != sortedDevices.end() - 1) cout << ", ";
     }
     std::cout << '\n';
+
+}
+
+void SystemManager::deleteSpecificDevice(){
+    string inputDevice;
+    cout << "Enter the exact name of the device to delete" << endl;
+    getline(cin, inputDevice);
 
 }
 

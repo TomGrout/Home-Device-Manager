@@ -25,14 +25,13 @@ protected:
 	virtual void turnOn();
 	virtual void turnOff();
 	void setName();
+	float round(float value);
 
 public:
 	Device(const std::string& initialName = ("Device" + to_string(numOfDevices)), bool on = false);
 	virtual ~Device();
 
-	virtual void quickView() {
-		cout << getName() << ": " << (IsOn() ? "[ON] " : "[OFF] ") << endl;
-	}
+	virtual void quickView();
 	virtual void displayInfo() = 0;
 	virtual void editProperty() = 0;
 	virtual void oneClick() = 0;

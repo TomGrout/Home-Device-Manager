@@ -7,7 +7,7 @@ void Thermostat::quickView(){
 void Thermostat::displayInfo(){
 	cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
 	cout << "Power: " << (IsOn() ? "On " : "Off ") << endl;
-	cout << "Heating: " << "whatever" << "%" << endl;
+	cout << "Heating: " << temperature << "\370C" << endl;
 	cout << "Schedule: " << "schedules" << endl;
 }
 
@@ -50,7 +50,7 @@ string Thermostat::getValue() const{
 	return to_string(temperature);
 }
 
-void Thermostat::heatingBoost(){
+void Thermostat::heatingBoost() {
 	int userInput;
 
 	do {
@@ -58,6 +58,14 @@ void Thermostat::heatingBoost(){
 		cout << "Set heating boost 1 - 20: ";
 		cin >> userInput;
 	} while (cin.bad() || userInput < 1 || userInput > 20);
+
+	if ((temperature + userInput) > 50) {
+		cout << "Heating cannot exceed 50\370C" << endl;
+	}
+	else {
+		temperature += userInput;
+		cout << "Heating boosted by an extra " << userInput << "\370C for one hour" << endl;
+	}
 }
 
 void Thermostat::heatingBoost(int val){

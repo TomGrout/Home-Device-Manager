@@ -4,9 +4,10 @@ Sensor s1 1 45 22.900000
 Sensor s2 1 90 30.200001
 Sensor s3 1 0 0.000000
 Lights l3 0 0
-Socket sk1 1 3191
+Socket sk1 0 3191
 Speaker sp1 0 4
 Speaker sp2 0 9
 Thermostat t1 0 0.000000
-Radiator rd1 1 5.000000
-Radiator rd2 0 15.000000
+Radiator rd1 1 0.000000
+Radiator rd2 0 10.000000
+Socket sk2 0 0

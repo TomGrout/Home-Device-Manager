@@ -1,17 +1,21 @@
 #include "SleepTimer.h"
 
-void SleepTimer::Start() {
-    while (timeRemaining > 0 && isRunning) {
+void SleepTimer::start(int mins) {
+    timeRemaining = mins;
+
+    while (timeRemaining > 0) {
+        isRunning = true;
         this_thread::sleep_for(chrono::seconds(1));
         timeRemaining--;
     }
+    stop();
 }
-
 
 void SleepTimer::stop() {
     isRunning = false;
+    cout << "Sleep timer finished";
 }
 
-void SleepTimer::extendTime(int time) {
+void SleepTimer::extend(int time) {
     timeRemaining += time;
 }

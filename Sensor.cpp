@@ -7,8 +7,8 @@ void Sensor::quickView(){
 
 void Sensor::displayInfo(){
     cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
-    cout << "Temperature: " << getTemp() << endl;
-    cout << "Humidity: " << getHumd() << endl;
+    cout << "Temperature: " << getTemp() << "\370C" << endl;
+    cout << "Humidity: " << humidity << "%" << endl;
 }
 
 void Sensor::editProperty(){
@@ -46,12 +46,8 @@ string Sensor::getValue() const
 }
 
 float Sensor::getTemp() const {
-	float tempRounded = (float)(temperature * 100 + .5);
+	float tempRounded = (int)(temperature * 100 + .5);
 	return (float)tempRounded / 100;
-}
-
-int Sensor::getHumd() const {
-    return humidity;
 }
 
 void Sensor::displayUsage()

@@ -21,6 +21,6 @@ public:
     string getValue() const override;
 
     void displayUsage();
-
+    void startTimer(int mins);
 };
 

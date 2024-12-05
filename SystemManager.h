@@ -1,9 +1,8 @@
 #pragma once
-#include <algorithm>
-#include <vector>
 #include <fstream>
 #include <sstream>
 
+#include "DeviceFactory.h"
 #include "Device.h"
 #include "Lights.h"
 #include "Speaker.h"
@@ -32,6 +31,7 @@ public:
 	Device* findDeviceByName(string name);
 	void sortDevicesByName();
 	void sortDevicesByType();
+	void deleteSpecificDevice();
 
 private:
 	SystemManager();

@@ -2,23 +2,24 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <iostream>
+#include "Device.h"
 
 using namespace std;
 
 class SleepTimer
 {
 private:
-	int timeRemaining = 0;
 	thread countdown;
-	atomic<bool> isRunning;
 
 public:
-	SleepTimer(int time) : timeRemaining(time) {}
+	atomic<bool> isRunning;
+	int timeRemaining = 0;	//time in mins
 
-	void extendTime(int time);
-	void Start();
+	SleepTimer(int time = 0) : timeRemaining(time), isRunning(true) {}
 
-    SleepTimer() : timeRemaining(0), isRunning(false) {}
+	void extend(int time);
+	void start(int mins);
 
     ~SleepTimer() {
         stop();
