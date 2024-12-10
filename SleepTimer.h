@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <mutex>
 #include <iostream>
 #include "Device.h"
 
@@ -11,21 +12,22 @@ class SleepTimer
 {
 private:
 	thread countdown;
+	atomic<bool> isRunning;
+	int timeRemaining = 0;	//time in secs
+	mutex mtx;
 
 public:
-	atomic<bool> isRunning;
-	int timeRemaining = 0;	//time in mins
 
 	SleepTimer(int time = 0) : timeRemaining(time), isRunning(true) {}
 
-	void extend(int time);
 	void start(int mins);
+	void extend(int time);
+	void stop();
 
     ~SleepTimer() {
         stop();
         if (countdown.joinable()) countdown.join();
     }
 	
-	void stop();
 };
 

@@ -18,16 +18,16 @@ void Lights::editProperty() {
 
 	switch (choice) {
 	case 1:
-		this->setName();
+		setName();
 		break;
 
 	case 2:
-		if (IsOn()) this->turnOff();
-		else this->turnOn();
+		if (IsOn()) turnOff();
+		else turnOn();
 		break;
 
 	case 3:
-		this->setBrightness();
+		setBrightness();
 		break;
 
 	case 4:
