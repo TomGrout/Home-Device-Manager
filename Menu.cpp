@@ -8,20 +8,111 @@
 
 using namespace std;
 
+const static string& devices_file = "C:\\Users\\tomgr\\OneDrive - Sheffield Hallam University\\Documents\\modules\\C, C++\\year 2\\coursework\\coursework - y2s1\\DEVICES.txt";
+static int menuDelay = 1;
+
+
+class Menu {
+private:
+
+public:
+
+    void displayAll() {                    // list all
+        SystemManager::getSystemManager()->displayAll();
+    }
+    void sortDevicesByName() {                    // sort name using <algorithms>
+        SystemManager::getSystemManager()->sortDevicesByName();
+    }
+
+    void sortDevicesByType() {                    // sort type
+        SystemManager::getSystemManager()->sortDevicesByType();
+    }
+
+    void quickList() {
+        // see all a devices actions
+
+        string displayDeviceChoice;
+        Device* displayDevice;
+
+        cout << "select a device:" << endl;
+        SystemManager::getSystemManager()->quickList();
+
+        cin >> displayDeviceChoice;
+        displayDevice = SystemManager::getSystemManager()->findDeviceByName(displayDeviceChoice);
+
+        if (displayDevice != nullptr) {                 //if find not null
+            cout << "\nSelect an option to adjust setting: " << endl; // enter setting, go to edit (set) function
+            displayDevice->editProperty();
+
+        }
+        cin.clear(); cin.ignore();
+    }
+
+    void addDevice() {
+        //take user input and pass to sys mgr function addDevice
+
+        string name, type;
+        cout << "Enter device type: ";
+        cin >> type;
+        cout << "Enter device name: ";
+        cin >> name;
+
+        SystemManager::getSystemManager()->addDevice(type, name);
+        cin.clear(); cin.ignore();
+    }
+
+    void settingsHelp() {
+        int settingChoice;
+        cout << "1 - view device types \n2 - toggle menu load delay \n3- delete a device" << endl;
+        cin >> settingChoice;
+        if (settingChoice == 1) {
+            cout << "Devices and their functions: \n"
+                << "Light(on / off, adjust brightness, sleep timer) \n"
+                << "Temperature & Humidity Sensor(live and historic data) \n"
+                << "Speaker(volume, play / stop) \n"
+                << "Heating Thermostat(on / off, schedule, heating boost) \n"
+                << "Socket / Plugs(on / off, schedule, sleep timer, live and historic energy usage) \n"
+                << "Radiator valve(on / off, current temperature, schedule) \n" << endl;
+        }
+        else if (settingChoice == 2) {
+            if (menuDelay == 1) menuDelay = 0;
+            else menuDelay = 1;
+
+            cout << "Menu delay turned " << ((menuDelay == 1) ? "on" : "off") << endl;
+        }
+        else if (settingChoice == 3) {
+            //delete device
+            SystemManager::getSystemManager()->deleteSpecificDevice();
+        }
+        cin.clear(); cin.ignore();
+    }
+    void saveDevicesToFile() {
+        SystemManager::getSystemManager()->saveDevicesToFile(devices_file);
+        cout << "\nExiting and saving data..." << endl;
+    }
+
+};
+
+void filestuff() {
+    cout << "file";
+}
+
 int main() {
 
-//#ifdef _DEBUG
-//    onexit(_CrtDumpMemoryLeaks);
-//#endif
-    
-    const static string& devices_file = "C:\\Users\\tomgr\\OneDrive - Sheffield Hallam University\\Documents\\modules\\C, C++\\year 2\\coursework\\coursework - y2s1\\DEVICES.txt";
-    SystemManager::getSystemManager()->loadDevicesFromFile(devices_file);
-    SystemManager::getSystemManager()->displayAll();
+    //#ifdef _DEBUG
+    //    onexit(_CrtDumpMemoryLeaks);
+    //#endif
 
-    string menuChoiceStr, displayDeviceChoice, type, name;
-    static int menuDelay = 1;
-    int menuChoiceInt, settingChoice;
-    Device* displayDevice;
+    auto SysMgr = SystemManager::getSystemManager();
+
+    SysMgr->loadDevicesFromFile(devices_file);
+    SysMgr->displayAll();
+
+    string menuChoiceStr;
+    int menuChoiceInt;
+
+    void (Menu:: * options[7])() = { &Menu::displayAll, &Menu::sortDevicesByName, &Menu::sortDevicesByType, &Menu::quickList, &Menu::addDevice, &Menu::settingsHelp, &Menu::saveDevicesToFile };
+
 
     do {
         this_thread::sleep_for(chrono::seconds(menuDelay));
@@ -36,99 +127,35 @@ int main() {
         cout << "Select a function: " << endl;
 
         getline(cin, menuChoiceStr);
+        unique_ptr<Menu> menu = make_unique<Menu>();
 
         istringstream inttest(menuChoiceStr);
         if (inttest >> menuChoiceInt) {
             //its an integer
 
-            switch (menuChoiceInt) {
-            case 1:
-                // list all
-                SystemManager::getSystemManager()->displayAll();
-                break;
-
-            case 2:
-                // sort name using <algorithms>
-                SystemManager::getSystemManager()->sortDevicesByName();
-                break;
-
-            case 3:
-                // sort type
-                SystemManager::getSystemManager()->sortDevicesByType();
-                break;
-
-            case 4:
-                // see all a devices actions
-                cout << "select a device:" << endl;
-                SystemManager::getSystemManager()->quickList();
-
-                cin >> displayDeviceChoice;
-                displayDevice = SystemManager::getSystemManager()->findDeviceByName(displayDeviceChoice);
-
-                if (displayDevice != nullptr) {                 //if find not null
-                    cout << "\nSelect an option to adjust setting: " << endl; // enter setting, go to edit (set) function
-                    displayDevice->editProperty();
-
-                }
-                cin.clear(); cin.ignore();
-                break;
-
-            case 5:
-                //take user input and pass to sys mgr function addDevice
-                cout << "Enter device type: ";
-                cin >> type;
-                cout << "Enter device name: ";
-                //getline(cin, name, '\n');
-                cin >> name;
-
-                SystemManager::getSystemManager()->addDevice(type, name);
-                cin.clear(); cin.ignore();
-                break;
-
-            case 6:
-                cout << "1 - view device types \n2 - toggle menu load delay \n3- delete a device" << endl;
-                cin >> settingChoice;
-                if (settingChoice == 1) {
-                    cout << "Devices and their functions: \n"
-                        << "Light(on / off, adjust brightness, sleep timer) \n"
-                        << "Temperature & Humidity Sensor(live and historic data) \n"
-                        << "Speaker(volume, play / stop) \n"
-                        << "Heating Thermostat(on / off, schedule, heating boost) \n"
-                        << "Socket / Plugs(on / off, schedule, sleep timer, live and historic energy usage) \n"
-                        << "Radiator valve(on / off, current temperature, schedule) \n" << endl;
-                }
-                else if(settingChoice == 2){
-                       if (menuDelay == 1) menuDelay = 0;
-                       else menuDelay = 1;
-
-                       cout << "Menu delay turned " << ((menuDelay == 1) ? "on" : "off") << endl;
-                }
-                else if(settingChoice == 3){
-                    //delete device
-                    SystemManager::getSystemManager()->deleteSpecificDevice();
-                }
-                cin.clear(); cin.ignore();
-                break;
-                    
-            case 9:
-                SystemManager::getSystemManager()->saveDevicesToFile(devices_file);
-                cout << "\nExiting and saving data..." << endl;
-                break;
-
-            default:
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                break;
+            if (menuChoiceInt == 9) {
+                (*menu.*options[6])();
             }
+            else if (menuChoiceInt > 0 && menuChoiceInt < 7) {
+                (*menu.*options[menuChoiceInt - 1])();
+            }
+            else {
+                cout << "Invalid choice. Please select a valid menu option.\n";
+            }
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            break;
+
         }
         else {
             //its a string
             //devices one click action
-            Device* oneClickDevice = SystemManager::getSystemManager()->findDeviceByName(menuChoiceStr);
+            Device* oneClickDevice = SysMgr->findDeviceByName(menuChoiceStr);
 
             if (oneClickDevice != nullptr) {
-                oneClickDevice->quickView();
                 oneClickDevice->oneClick();
+                oneClickDevice->quickView();
             }
             else {
                 cout << "Couldn't find that device." << endl;
