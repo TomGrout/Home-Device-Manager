@@ -9,7 +9,7 @@ void Socket::displayInfo(){
 void Socket::editProperty(){
 	int choice;
 	cout << "1 - name \n2 - toggle on/off \n3 - sleep timer \n4 - cancel" << endl;
-	cin >> choice;
+	cin >> choice; string stChoice; int time;
 
 	switch (choice) {
 	case 1:
@@ -19,13 +19,29 @@ void Socket::editProperty(){
 	case 2:
 		if (IsOn()) turnOff();
 		else turnOn();
+		cout << "Device turned " << IsOn() ? "on"  : "off";
 		break;
 
 	case 3:
-		int time;
-		cout << "Enter how long the device will turn off after (minutes): ";
-		cin >> time;
-		startTimer(time);
+		cout << "1 - new / 2 - extend / 3 - stop ";
+		cin >> stChoice;
+		
+		if (stChoice == "1") {
+			cout << "Enter how long the device will turn off after (minutes): ";
+			cin >> time;
+			startTimer(time);
+		}
+		else if (stChoice == "2") {
+			cout << "Enter how long to extend timer by (minutes): ";
+			cin >> time;
+			st.extend(time);
+		}
+		else if (stChoice == "3") {
+			st.stop();
+		}
+		else {
+			cout << "Invalid choice" << endl;
+		}
 		break;
 
 	case 4:
@@ -53,15 +69,20 @@ void Socket::displayUsage() {
 	cout << "Usage: " << usage << "kW" << endl;
 }
 
-void Socket::startTimer(int mins)
-{
+void Socket::startTimer(int mins){
+
+	if (st.isRunning) {
+		cout << "Timer already active. You may extend or stop the current timer. " << endl;
+		return;
+	}
+	
 	turnOn();
 
 	thread t([this, mins]() {
 		st.start(mins);
 		turnOff();
-		cout << getName() << " turned off." << endl;
+		cout << getName() << " turned off.\n" << endl;
 		});
 	t.detach();
-
+	
 }

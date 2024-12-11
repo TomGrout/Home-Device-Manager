@@ -4,7 +4,6 @@
 #include <atomic>
 #include <mutex>
 #include <iostream>
-#include "Device.h"
 
 using namespace std;
 
@@ -12,13 +11,13 @@ class SleepTimer
 {
 private:
 	thread countdown;
-	atomic<bool> isRunning;
-	int timeRemaining = 0;	//time in secs
-	mutex mtx;
+	int timeRemaining = 0;	//time in secs(for testing) mins(production)
 
 public:
+	atomic<bool> isRunning;		//very exact
+	mutex mtx;
 
-	SleepTimer(int time = 0) : timeRemaining(time), isRunning(true) {}
+	SleepTimer(int time = 0) : timeRemaining(time), isRunning(false) {}
 
 	void start(int mins);
 	void extend(int time);

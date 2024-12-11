@@ -1,22 +1,39 @@
 #include "SleepTimer.h"
 
 void SleepTimer::start(int mins) {
-    timeRemaining = mins;
     lock_guard<mutex> guard(mtx);
 
-    while (timeRemaining > 0) {
-        isRunning = true;
-        this_thread::sleep_for(chrono::seconds(1));
-        --timeRemaining;
+    if (isRunning) {
+        cout << "Timer already active. You may extend or stop the current timer. " << endl;
+        return;
     }
-    cout << "Sleep timer finished. ";
+    else {
+        timeRemaining = mins;
+        isRunning = true;
+
+        while (timeRemaining > 0) {
+            if (!isRunning) return;
+            this_thread::sleep_for(chrono::seconds(1));
+            --timeRemaining;
+        }
+        //lock_guard<mutex> guard(mtx);
+        isRunning = false;
+        cout << "Sleep timer finished. ";
+    }
 }
 
 void SleepTimer::stop() {
     lock_guard<mutex> guard (mtx);
-    isRunning = false;
-    timeRemaining = 0;
-    cout << "Sleep timer finished" << endl;
+    if (isRunning) {
+        isRunning = false;
+        timeRemaining = 0;
+        cout << "Sleep timer finished" << endl;
+        return;
+    }
+    else {
+        cout << "No sleep timer found to extend" << endl;
+        return;
+    }
 }
 
 void SleepTimer::extend(int time) {
@@ -25,8 +42,10 @@ void SleepTimer::extend(int time) {
     if (isRunning) {
         timeRemaining += time;
         cout << "Time remaining: " << timeRemaining << endl;
+        return;
     }
     else {
         cout << "No sleep timer found to extend" << endl;
+        return;
     }
 }

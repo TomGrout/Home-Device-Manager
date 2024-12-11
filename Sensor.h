@@ -17,13 +17,11 @@ private:
 public:
     Sensor(const string& name, bool on = 1, int humd = 0, float temp = 0.0f) : Device(name, on), temperature(temp), humidity(humd) {}
 
-    void quickView() override;  //one click action
+    void quickView() override;  
     void displayInfo() override;
     void editProperty() override;
     void oneClick() override;
     string getValue() const override;
-
-    float getTemp() const;
     void displayUsage();
     
 };

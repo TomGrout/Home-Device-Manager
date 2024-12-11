@@ -1,5 +1,6 @@
 #pragma once
 #include "Device.h"
+#include "SleepTimer.h"
 #include "Schedule.h"
 
 class Lights :
@@ -7,6 +8,7 @@ class Lights :
 {
 private:
     int brightness = 0;
+    SleepTimer st;
 
 public:
     Lights(string name, bool on, int brightness = 0) : Device(name, on), brightness(brightness) {}
@@ -19,6 +21,7 @@ public:
 
     void setBrightness();
     void setBrightness(int val);
+    void startTimer(int mins);
 
 };
 

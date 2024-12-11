@@ -22,8 +22,8 @@ private:
 	string type;
 
 protected:
-	virtual void turnOn();
-	virtual void turnOff();
+	void turnOn();
+	void turnOff();
 	void setName();
 	float round(float value);
 

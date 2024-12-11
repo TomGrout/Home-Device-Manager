@@ -2,12 +2,12 @@
 
 
 void Sensor::quickView(){
-    cout << getName() << " " << (IsOn() ? "[" + (to_string(temperature) + "\370C / " + to_string(humidity) + "%]") : "[OFF] ") << endl;
+    cout << getName() << (IsOn() ? " [" + (to_string(temperature) + "\370C / " + to_string(humidity) + "%]") : " [OFF] ");
 }
 
 void Sensor::displayInfo(){
     cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
-    cout << "Temperature: " << getTemp() << "\370C" << endl;
+    cout << "Temperature: " << round(temperature) << "\370C" << endl;
     cout << "Humidity: " << humidity << "%" << endl;
 }
 
@@ -43,11 +43,6 @@ void Sensor::oneClick()
 string Sensor::getValue() const
 {
 	return to_string(humidity) + " " + to_string(temperature);
-}
-
-float Sensor::getTemp() const {
-	float tempRounded = (int)(temperature * 100 + .5);
-	return (float)tempRounded / 100;
 }
 
 void Sensor::displayUsage()

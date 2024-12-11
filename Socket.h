@@ -1,6 +1,7 @@
 #pragma once
 #include "Device.h"
 #include "SleepTimer.h"
+#include "Schedule.h"
 
 using namespace chrono;
 

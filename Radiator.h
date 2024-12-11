@@ -10,8 +10,8 @@ private:
     unique_ptr<Schedule> schedule = make_unique<Schedule>();
 
 public:
-    Radiator(string name, bool on, float temp) : Device(name, on), temperature(temp), schedule(nullptr) { temperature += rand() % 4 - 2; }
-    Radiator(string name, bool on) : Device(name, on), schedule(nullptr) { temperature = 0.0f + rand() % 25; }
+    Radiator(string name, bool on, float temp) : Device(name, on), temperature(temp), schedule(nullptr) { temperature += rand() % 4 - 2; }  //uses real schedules
+    Radiator(string name, bool on) : Device(name, on), schedule(nullptr) { temperature = 0.0f + (rand() % 58 - 29) / 10; }      //new, has no schedules
 
     void quickView() override;
     void displayInfo() override;
@@ -20,5 +20,3 @@ public:
     string getValue() const override;
 
 };
-
-    

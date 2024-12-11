@@ -1,13 +1,13 @@
 #include "Radiator.h"
 
 void Radiator::quickView(){
-	cout << getName() << (IsOn() ? "[ON - " + to_string(temperature) + "\370C] " : "[OFF] ");
+	cout << getName() << (IsOn() ? "[" + to_string(temperature) + "\370C] " : "[OFF] ");
 }
 
 void Radiator::displayInfo(){
 	cout << "\n" << getType().erase(0, 6) << " Name: " << getName() << endl;
 	cout << "Power: " << (IsOn() ? "On " : "Off ") << endl;
-	cout << "Heating: " << (IsOn() ? to_string(temperature) : "0") << "\370C" << endl;
+	cout << "Heating: " << (IsOn() ? to_string(round(temperature)) : "0") << "\370C" << endl;
 	cout << "Schedule: " << "schedules" << endl;
 }
 
@@ -18,12 +18,12 @@ void Radiator::editProperty(){
 
 	switch (choice) {
 	case 1:
-		this->setName();
+		setName();
 		break;
 
 	case 2:
-		if (IsOn()) this->turnOff();
-		else this->turnOn();
+		if (IsOn()) turnOff();
+		else turnOn();
 		break;
 
 	case 3:
@@ -41,7 +41,6 @@ void Radiator::editProperty(){
 
 void Radiator::oneClick(){
 	turnOn();
-	quickView();
 }
 
 string Radiator::getValue() const {

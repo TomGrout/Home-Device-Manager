@@ -20,8 +20,8 @@ void Device::setName() {
 }
 
 float Device::round(float value){
-    float rounded = (int)(value * 100 + .5);
-    return (float)rounded / 100;
+    int rounded = (int)(value * 10);
+    return (float)rounded / 10;
 }
 
 string Device::getName() const {
@@ -33,7 +33,7 @@ string Device::getType() const {
 }
 
 void Device::quickView(){
-    cout << getName() << " " << (IsOn() ? "[ON}" : "[OFF] ") << endl;
+    cout << getName() << " " << (IsOn() ? "[ON]" : "[OFF] ");
 }
 
 void Device::displayInfo() {

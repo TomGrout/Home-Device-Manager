@@ -13,8 +13,8 @@ void Lights::displayInfo() {
 
 void Lights::editProperty() {
 	int choice;
-	cout << "1 - name \n2 - toggle on/off \n3 - brightness \n4 - cancel" << endl;
-	cin >> choice;
+	cout << "1 - name \n2 - toggle on/off \n3 - brightness \n4 - sleep timer \n5 - cancel" << endl;
+	cin >> choice; string stChoice; int time;
 
 	switch (choice) {
 	case 1:
@@ -31,6 +31,28 @@ void Lights::editProperty() {
 		break;
 
 	case 4:
+		cout << "1 - new / 2 - extend / 3 - stop ";
+		cin >> stChoice;
+
+		if (stChoice == "1") {
+			cout << "Enter how long the device will turn off after (minutes): ";
+			cin >> time;
+			startTimer(time);
+		}
+		else if (stChoice == "2") {
+			cout << "Enter how long to extend timer by (minutes): ";
+			cin >> time;
+			st.extend(time);
+		}
+		else if (stChoice == "3") {
+			st.stop();
+		}
+		else {
+			cout << "Invalid choice" << endl;
+		}
+		break;
+
+	case 5:
 		break;
 
 	default:
@@ -77,4 +99,22 @@ void Lights::setBrightness(int val)
 {
 	brightness = val;
 	cout << "Brightness set to " << brightness << endl;
+}
+
+void Lights::startTimer(int mins){
+
+	if (st.isRunning) {
+		cout << "Timer already active. You may extend or stop the current timer. " << endl;
+		return;
+	}
+
+	turnOn();
+
+	thread t([this, mins]() {
+		st.start(mins);
+		turnOff();
+		cout << getName() << " turned off.\n" << endl;
+		});
+	t.detach();
+
 }

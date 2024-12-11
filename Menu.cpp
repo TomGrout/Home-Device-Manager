@@ -17,20 +17,22 @@ private:
 
 public:
 
-    void displayAll() {                    // list all
+    void displayAll() {                    
+        // list all
         SystemManager::getSystemManager()->displayAll();
     }
-    void sortDevicesByName() {                    // sort name using <algorithms>
+    void sortDevicesByName() {                    
+        // sort name using <algorithms>
         SystemManager::getSystemManager()->sortDevicesByName();
     }
 
-    void sortDevicesByType() {                    // sort type
+    void sortDevicesByType() {                    
+        // sort type
         SystemManager::getSystemManager()->sortDevicesByType();
     }
 
     void quickList() {
         // see all a devices actions
-
         string displayDeviceChoice;
         Device* displayDevice;
 
@@ -62,10 +64,10 @@ public:
     }
 
     void settingsHelp() {
-        int settingChoice;
-        cout << "1 - view device types \n2 - toggle menu load delay \n3- delete a device" << endl;
+        string settingChoice;
+        cout << "1 - view device types \n2 - toggle menu load delay \n3 - delete a device \n4 - cancel" << endl;
         cin >> settingChoice;
-        if (settingChoice == 1) {
+        if (settingChoice == "1") {
             cout << "Devices and their functions: \n"
                 << "Light(on / off, adjust brightness, sleep timer) \n"
                 << "Temperature & Humidity Sensor(live and historic data) \n"
@@ -74,15 +76,18 @@ public:
                 << "Socket / Plugs(on / off, schedule, sleep timer, live and historic energy usage) \n"
                 << "Radiator valve(on / off, current temperature, schedule) \n" << endl;
         }
-        else if (settingChoice == 2) {
+        else if (settingChoice == "2") {
             if (menuDelay == 1) menuDelay = 0;
             else menuDelay = 1;
 
             cout << "Menu delay turned " << ((menuDelay == 1) ? "on" : "off") << endl;
         }
-        else if (settingChoice == 3) {
+        else if (settingChoice == "3") {
             //delete device
             SystemManager::getSystemManager()->deleteSpecificDevice();
+        }
+        else {
+            cout << "Invalid choice. Request cancelled.";
         }
         cin.clear(); cin.ignore();
     }
@@ -113,18 +118,17 @@ int main() {
 
     void (Menu:: * options[7])() = { &Menu::displayAll, &Menu::sortDevicesByName, &Menu::sortDevicesByType, &Menu::quickList, &Menu::addDevice, &Menu::settingsHelp, &Menu::saveDevicesToFile };
 
-
     do {
         this_thread::sleep_for(chrono::seconds(menuDelay));
-        cout << "\n[device name]: Perform that device's one-click action\n" <<
-            "1: List devices\n" <<
+        cout << "\n\n[device name]: Perform that device's one-click action\n" <<
+            "1 : List devices\n" <<
             "2 : Sort by name\n" <<
             "3 : Sort by device type (by name as secondary order)\n" <<
             "4 : Select device to interact with it's full feature set\n" <<
             "5 : Add device\n" <<
             "6 : Settings & help\n" <<
             "9 : Exit" << endl;
-        cout << "Select a function: " << endl;
+        cout << "Select a function: ";
 
         getline(cin, menuChoiceStr);
         unique_ptr<Menu> menu = make_unique<Menu>();
@@ -141,12 +145,8 @@ int main() {
             }
             else {
                 cout << "Invalid choice. Please select a valid menu option.\n";
+                cin.clear();
             }
-
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            break;
-
         }
         else {
             //its a string
@@ -162,7 +162,7 @@ int main() {
             }
         }
 
-    } while (menuChoiceInt != 9);
+    } while (menuChoiceInt != 9 || menuChoiceStr != "9");
 
     return 0;
 }
