@@ -2,7 +2,9 @@
 
 
 void Sensor::quickView(){
-    cout << getName() << (IsOn() ? " [" + (to_string(temperature) + "\370C / " + to_string(humidity) + "%]") : " [OFF] ");
+	cout << getName(); 
+	if (IsOn()) cout << " [" << round(temperature) << "\370C / " << humidity << "%]";
+	else cout << " [OFF] ";
 }
 
 void Sensor::displayInfo(){
@@ -18,18 +20,18 @@ void Sensor::editProperty(){
 
 	switch (choice) {
 	case 1:
-		this->setName();
+		setName();
 		break;
 
 	case 2:
-		this->displayUsage();
+		displayUsage();
 		break;
 
 	case 3:
 		break;
 
 	default:
-		cout << "Incorrect input, request cancelled" << endl;
+		cout << "Invalid input, request cancelled" << endl;
 		break;
 	}
 }

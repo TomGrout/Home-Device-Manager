@@ -1,9 +1,8 @@
 #include "Device.h"
 
 // constructor
-Device::Device(const std::string& initialName, bool on) : name(initialName), On(on) {
+Device::Device(const string& initialName, bool on) : name(initialName), On(on) {
     numOfDevices++;
-    srand(time(NULL));
 }
 
 // destructor
@@ -13,7 +12,7 @@ Device::~Device() {
 
 void Device::setName() {
     cout << "\nNew name for " << name << ": ";
-    std::string n;
+    string n;
     getline(cin >> ws, n);
     name = n;
     cout << getType().erase(0, 6) << " renamed to " << name << endl;

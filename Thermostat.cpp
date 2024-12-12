@@ -18,16 +18,17 @@ void Thermostat::editProperty(){
 
 	switch (choice) {
 	case 1:
-		this->setName();
+		setName();
 		break;
 
 	case 2:
-		if (IsOn()) this->turnOff();
-		else this->turnOn();
+		if (IsOn()) turnOff();
+		else turnOn();
+		cout << "Device turned " << IsOn() ? "on" : "off";
 		break;
 
 	case 3:
-		this->heatingBoost();
+		heatingBoost();
 		break;
 
 	case 4:

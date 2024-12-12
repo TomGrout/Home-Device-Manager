@@ -74,7 +74,18 @@ void SystemManager::saveDevicesToFile(const string& filename) {
 
 // quickly list devices
 void SystemManager::quickList() {
-    for (Device* device : devices) device->quickView();
+    if (numOfDevices <= 5) {
+        for (Device* device : devices) {
+            device->quickView();
+            cout << ", \n";
+        }
+    }
+    else {
+        for (Device* device : devices) {
+            device->quickView();
+            cout << ",  ";
+        }
+    }
 }
 
 void SystemManager::addDevice(string& type, const string& name){
@@ -152,8 +163,29 @@ void SystemManager::sortDevicesByType(){
 
 void SystemManager::deleteSpecificDevice(){
     string inputDevice;
+    Device* deleteDevice;
+
     cout << "Enter the exact name of the device to delete" << endl;
-    getline(cin, inputDevice);
+    cin >> inputDevice;
+    deleteDevice = SystemManager::getSystemManager()->findDeviceByName(inputDevice);
+
+    if (deleteDevice != nullptr) {                 //if find not null
+        try {
+            delete deleteDevice;
+            remove(devices.begin(), devices.end(), deleteDevice);   //1
+            devices.pop_back();
+            cout << "Device deleted successfully." << endl;
+        }
+        catch (exception e) {
+            cout << "Device could not be deleted. ";
+        }
+        
+    }
+    else {
+        cout << "Couldn't find that device. " << endl;
+        return;
+    }
+    cin.clear();
 
 }
 

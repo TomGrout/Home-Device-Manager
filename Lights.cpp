@@ -1,7 +1,7 @@
 #include "Lights.h"
 
 void Lights::quickView() {
-	cout << getName() << " " << (IsOn() ? "[ON " + (to_string(brightness) + "%]") : "[OFF] ") << endl;
+	cout << getName() << " " << (IsOn() ? "[ON " + (to_string(brightness) + "%]") : "[OFF] ");
 }
 
 
@@ -24,6 +24,7 @@ void Lights::editProperty() {
 	case 2:
 		if (IsOn()) turnOff();
 		else turnOn();
+		cout << "Device turned " << IsOn() ? "on" : "off";
 		break;
 
 	case 3:
@@ -42,10 +43,10 @@ void Lights::editProperty() {
 		else if (stChoice == "2") {
 			cout << "Enter how long to extend timer by (minutes): ";
 			cin >> time;
-			st.extend(time);
+			timer.extend(time);
 		}
 		else if (stChoice == "3") {
-			st.stop();
+			timer.stop();
 		}
 		else {
 			cout << "Invalid choice" << endl;
@@ -56,7 +57,7 @@ void Lights::editProperty() {
 		break;
 
 	default:
-		cout << "Incorrect input, request cancelled" << endl;
+		cout << "Invalid input, request cancelled" << endl;
 		break;
 	}
 }
@@ -103,7 +104,7 @@ void Lights::setBrightness(int val)
 
 void Lights::startTimer(int mins){
 
-	if (st.isRunning) {
+	if (timer.isRunning) {
 		cout << "Timer already active. You may extend or stop the current timer. " << endl;
 		return;
 	}
@@ -111,7 +112,7 @@ void Lights::startTimer(int mins){
 	turnOn();
 
 	thread t([this, mins]() {
-		st.start(mins);
+		timer.start(mins);
 		turnOff();
 		cout << getName() << " turned off.\n" << endl;
 		});

@@ -8,7 +8,7 @@ class Lights :
 {
 private:
     int brightness = 0;
-    SleepTimer st;
+    SleepTimer timer;
 
 public:
     Lights(string name, bool on, int brightness = 0) : Device(name, on), brightness(brightness) {}

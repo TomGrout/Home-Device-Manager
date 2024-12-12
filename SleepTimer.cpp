@@ -16,7 +16,6 @@ void SleepTimer::start(int mins) {
             this_thread::sleep_for(chrono::seconds(1));
             --timeRemaining;
         }
-        //lock_guard<mutex> guard(mtx);
         isRunning = false;
         cout << "Sleep timer finished. ";
     }

@@ -24,6 +24,7 @@ void Radiator::editProperty(){
 	case 2:
 		if (IsOn()) turnOff();
 		else turnOn();
+		cout << "Device turned " << IsOn() ? "on" : "off";
 		break;
 
 	case 3:
@@ -34,7 +35,7 @@ void Radiator::editProperty(){
 		break;
 
 	default:
-		cout << "Incorrect input, request cancelled" << endl;
+		cout << "Invalid input, request cancelled" << endl;
 		break;
 	}
 }

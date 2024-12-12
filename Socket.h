@@ -11,7 +11,9 @@ class Socket :
 private:
     steady_clock::time_point start = high_resolution_clock::now();      // start usage timer
     int usage;
-    SleepTimer st;
+    SleepTimer timer;
+    unique_ptr<Schedule> schedule = nullptr;
+    vector<shared_ptr<Schedule>> entries;
 
 public:
     Socket(string name, bool on, int usage = 0) : Device(name, on), usage(usage) {}
@@ -23,5 +25,6 @@ public:
 
     void displayUsage();
     void startTimer(int mins);
+    void displaySchedule() const;
 };
 

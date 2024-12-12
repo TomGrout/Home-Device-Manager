@@ -1,7 +1,7 @@
 #include "Speaker.h"
 
 void Speaker::quickView(){
-	cout << getName() << ": " << (IsOn() ? "[ON - " + to_string(volume) + "]" : "[OFF] ") << endl;
+	cout << getName() << ": " << IsOn() ? "[ON - " + to_string(volume) + "]" : "[OFF] ";
 }
 
 void Speaker::displayInfo(){
@@ -20,23 +20,24 @@ void Speaker::editProperty(){
 
 	switch (choice) {
 	case 1:
-		this->setName();
+		setName();
 		break;
 
 	case 2:
-		if (playing == true) this->stop();
-		else this->play();
+		if (playing == true) stop();
+		else play();
+		cout << "Speaker " << playing ? "on" : "off";
 		break;
 
 	case 3:
-		this->setVolume();
+		setVolume();
 		break;
 
 	case 4:
 		break;
 
 	default:
-		cout << "Incorrect input, request cancelled" << endl;
+		cout << "Invalid input, request cancelled" << endl;
 		break;
 	}
 }

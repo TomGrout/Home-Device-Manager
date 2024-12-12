@@ -31,12 +31,13 @@ public:
         SystemManager::getSystemManager()->sortDevicesByType();
     }
 
-    void quickList() {
+    void editProperty() {
+        cout << numOfDevices;
         // see all a devices actions
         string displayDeviceChoice;
         Device* displayDevice;
 
-        cout << "select a device:" << endl;
+        cout << "Select a device:" << endl;
         SystemManager::getSystemManager()->quickList();
 
         cin >> displayDeviceChoice;
@@ -79,7 +80,6 @@ public:
         else if (settingChoice == "2") {
             if (menuDelay == 1) menuDelay = 0;
             else menuDelay = 1;
-
             cout << "Menu delay turned " << ((menuDelay == 1) ? "on" : "off") << endl;
         }
         else if (settingChoice == "3") {
@@ -108,19 +108,20 @@ int main() {
     //    onexit(_CrtDumpMemoryLeaks);
     //#endif
 
-    auto SysMgr = SystemManager::getSystemManager();
+    srand(time(NULL));
 
+    auto SysMgr = SystemManager::getSystemManager();
     SysMgr->loadDevicesFromFile(devices_file);
     SysMgr->displayAll();
 
     string menuChoiceStr;
     int menuChoiceInt;
 
-    void (Menu:: * options[7])() = { &Menu::displayAll, &Menu::sortDevicesByName, &Menu::sortDevicesByType, &Menu::quickList, &Menu::addDevice, &Menu::settingsHelp, &Menu::saveDevicesToFile };
+    void (Menu:: * options[7])() = { &Menu::displayAll, &Menu::sortDevicesByName, &Menu::sortDevicesByType, &Menu::editProperty, &Menu::addDevice, &Menu::settingsHelp, &Menu::saveDevicesToFile };
 
     do {
         this_thread::sleep_for(chrono::seconds(menuDelay));
-        cout << "\n\n[device name]: Perform that device's one-click action\n" <<
+        cout << "\n[device name]: Perform that device's one-click action\n" <<
             "1 : List devices\n" <<
             "2 : Sort by name\n" <<
             "3 : Sort by device type (by name as secondary order)\n" <<
@@ -151,6 +152,7 @@ int main() {
         else {
             //its a string
             //devices one click action
+            transform(menuChoiceStr.begin(), menuChoiceStr.end(), menuChoiceStr.begin(), tolower);
             Device* oneClickDevice = SysMgr->findDeviceByName(menuChoiceStr);
 
             if (oneClickDevice != nullptr) {

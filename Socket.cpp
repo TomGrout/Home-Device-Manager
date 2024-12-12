@@ -8,7 +8,7 @@ void Socket::displayInfo(){
 
 void Socket::editProperty(){
 	int choice;
-	cout << "1 - name \n2 - toggle on/off \n3 - sleep timer \n4 - cancel" << endl;
+	cout << "1 - name \n2 - toggle on/off \n3 - sleep timer \n4 - schedule \n5 - cancel" << endl;
 	cin >> choice; string stChoice; int time;
 
 	switch (choice) {
@@ -23,7 +23,7 @@ void Socket::editProperty(){
 		break;
 
 	case 3:
-		cout << "1 - new / 2 - extend / 3 - stop ";
+		cout << "1 - new / 2 - extend / 3 - stop: ";
 		cin >> stChoice;
 		
 		if (stChoice == "1") {
@@ -34,10 +34,10 @@ void Socket::editProperty(){
 		else if (stChoice == "2") {
 			cout << "Enter how long to extend timer by (minutes): ";
 			cin >> time;
-			st.extend(time);
+			timer.extend(time);
 		}
 		else if (stChoice == "3") {
-			st.stop();
+			timer.stop();
 		}
 		else {
 			cout << "Invalid choice" << endl;
@@ -45,10 +45,16 @@ void Socket::editProperty(){
 		break;
 
 	case 4:
+		
+		entries.emplace_back(schedule->createSchedule());
+		displaySchedule();
 		break;
 
+	case 5:
+		break;
+		
 	default:
-		cout << "Incorrect input, request cancelled" << endl;
+		cout << "Invalid input, request cancelled" << endl;
 		break;
 	}
 }
@@ -71,7 +77,7 @@ void Socket::displayUsage() {
 
 void Socket::startTimer(int mins){
 
-	if (st.isRunning) {
+	if (timer.isRunning) {
 		cout << "Timer already active. You may extend or stop the current timer. " << endl;
 		return;
 	}
@@ -79,10 +85,18 @@ void Socket::startTimer(int mins){
 	turnOn();
 
 	thread t([this, mins]() {
-		st.start(mins);
+		timer.start(mins);
 		turnOff();
 		cout << getName() << " turned off.\n" << endl;
 		});
 	t.detach();
 	
 }
+
+void Socket::displaySchedule() const {
+	for (auto entry = entries.begin(); entry != entries.end(); ++entry) {
+		if (*entry != nullptr)cout << **entry << "\n";
+		else cout << "No schedules." << endl;
+	}
+}
+//if (entry == entries.end() - 1) cout << ", ";

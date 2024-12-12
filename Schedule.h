@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -11,53 +12,46 @@ using namespace std;
 
 class Schedule{
 
-    private:
-
-        struct MyTime
-        {
-        public:
-            int hours, mins;
-
-            // constructor
-            MyTime(int hrs = 0, int mns = 0) : hours(hrs), mins(mns) {}
-
-
-            friend ostream& operator<<(ostream& os, const MyTime& t) {
-                os << t.hours << ":" << (t.mins < 10 ? "0" : "") << t.mins;
-                return os;
-            }
-
-            bool operator==(const MyTime& t) const {
-                return hours == t.hours && mins == t.mins;
-            }
-
-            bool operator<(const MyTime& t) const {
-                return hours < t.hours || (hours == t.hours && mins < t.mins);
-            }
-        };
-
-        struct ScheduleEntry
-        {
-        private:
-            MyTime onTime;
-            MyTime offTime;
-
-        public:
-            ScheduleEntry(MyTime on, MyTime off) : onTime(on), offTime(off) {}
-
-            friend ostream& operator<<(ostream& os, const ScheduleEntry& s) {
-                os << "Turns on at " << s.onTime.hours << ":" << (s.onTime.mins < 10 ? "0" : "") << s.onTime.mins;
-                os << "Turns off at " << s.offTime.hours << ":" << (s.offTime.mins < 10 ? "0" : "") << s.offTime.mins;
-                return os;
-            }
-        };
-
-    vector<ScheduleEntry> entries;
-
+public:
+    struct MyTime
+    {
     public:
-        void addSchedule(const MyTime& on, const MyTime& off);
-        void displaySchedule() const;
+        int hours, mins;
 
+        // constructor
+        MyTime(int hrs = 0, int mns = 0) : hours(hrs), mins(mns) {}
+
+
+        friend ostream& operator<<(ostream& os, const MyTime& t) {
+            os << t.hours << ":" << (t.mins < 10 ? "0" : "") << t.mins;
+            return os;
+        }
+
+        bool operator==(const MyTime& t) const {
+            return hours == t.hours && mins == t.mins;
+        }
+
+        bool operator<(const MyTime& t) const {
+            return hours < t.hours || (hours == t.hours && mins < t.mins);
+        }
+    };
+
+
+    void addSchedule(Schedule* schedule);
+    void displaySchedule() const;
+    shared_ptr<Schedule> createSchedule();
+    Schedule(shared_ptr<MyTime> on, shared_ptr<MyTime> off) : onTime(on), offTime(off) { }
+
+private:
+    shared_ptr<MyTime> onTime;
+    shared_ptr<MyTime> offTime;
+
+
+    friend ostream& operator<<(ostream& os, const Schedule& s) {
+        os << "Turns on at " << s.onTime->hours << ":" << (s.onTime->mins < 10 ? "0" : "") << s.onTime->mins;
+        os << ", turns off at " << s.offTime->hours << ":" << (s.offTime->mins < 10 ? "0" : "") << s.offTime->mins;
+        return os;
+    }
 
 };
 
